@@ -708,13 +708,13 @@ section {
   left: 40px;
   top: 0;
   bottom: 100%;
-  width: 1.5px;
+  width: 2px;
   background: linear-gradient(
     to bottom,
     var(--accent) 0%,
-    color-mix(in oklch, var(--accent) 60%, transparent) 100%
+    color-mix(in oklch, var(--accent) 50%, transparent) 100%
   );
-  box-shadow: 0 0 6px var(--accent-glow);
+  box-shadow: 0 0 10px var(--accent-glow), 0 0 30px var(--accent-glow);
   transition: bottom 1.5s var(--ease-out-expo);
   z-index: 1;
 }
@@ -1248,10 +1248,46 @@ details[open] .faq-question::after {
 }
 
 .faq-answer {
-  padding: 0 var(--space-md) var(--space-md);
+  padding: 0 var(--space-md);
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.7;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s var(--ease-out-quart), opacity 0.3s var(--ease-out-quart), padding 0.3s var(--ease-out-quart);
+}
+
+.faq-answer.open {
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+.faq-answer p {
+  margin-bottom: 0.6rem;
+}
+
+.faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-answer ul {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.faq-answer li {
+  padding: 0.25rem 0 0.25rem 1.2rem;
+  position: relative;
+}
+
+.faq-answer li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
 }
 
 .faq-answer strong {
@@ -1363,13 +1399,13 @@ details[open] .faq-question::after {
 
 .pulse-beam {
   position: absolute;
-  width: 1px;
+  width: 1.5px;
   height: 100%;
   top: 0;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    color-mix(in oklch, var(--accent) 15%, transparent) 50%,
+    color-mix(in oklch, var(--accent) 25%, transparent) 50%,
     transparent 100%
   );
   opacity: 0;

@@ -146,8 +146,8 @@
         const wobble2 = Math.sin(t * 1.4 + i * 0.4) * 8 * proxSq;
         const totalWobble = wobble + wobble2;
 
-        const alpha = 0.03 + 0.18 * proxSq;
-        const lw = 0.2 + 3.0 * proxSq;
+      const alpha = 0.04 + 0.25 * proxSq;
+      const lw = 0.3 + 4.0 * proxSq;
 
         ctx.strokeStyle = accent;
         ctx.globalAlpha = alpha;
@@ -241,7 +241,23 @@
         ctx.fillStyle = accent;
         ctx.globalAlpha = pAlpha * (0.5 + Math.sin(t * 1.5 + phase) * 0.5);
         ctx.beginPath();
-        ctx.arc(px, py, size, 0, Math.PI * 2);
+        ctx.arc(px, py, size * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.globalAlpha = 0.6;
+      for (let p = 0; p < 8; p++) {
+        const phase = p * 1.1;
+        const px = cx + (p - 3.5) * dw * 0.05 + Math.sin(t * 0.9 + phase) * dw * 0.06;
+        const py = cy + Math.sin(t * 0.6 + phase * 1.1) * dh * 0.12;
+        const size = 2 + Math.sin(t * 2.5 + phase) * 1;
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 3);
+        grad.addColorStop(0, accent + '30');
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = 0.3 + Math.sin(t * 1.3 + phase) * 0.2;
+        ctx.beginPath();
+        ctx.arc(px, py, size * 3, 0, Math.PI * 2);
         ctx.fill();
       }
 
@@ -315,6 +331,41 @@
   );
 
   statValues.forEach((el) => statObserver.observe(el));
+
+  /* --- FAQ smooth accordion --- */
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    const q = item.querySelector('.faq-question');
+    const a = item.querySelector('.faq-answer');
+    if (!q || !a) return;
+
+    q.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpening = !item.open;
+
+      /* Close all others */
+      document.querySelectorAll('.faq-item.open').forEach((openItem) => {
+        if (openItem !== item) {
+          openItem.querySelector('.faq-answer').classList.remove('open');
+          openItem.classList.remove('open');
+        }
+      });
+
+      if (isOpening) {
+        item.open = true;
+        requestAnimationFrame(() => {
+          a.style.maxHeight = a.scrollHeight + 'px';
+          a.style.opacity = '1';
+          a.classList.add('open');
+        });
+        item.classList.add('open');
+      } else {
+        a.style.maxHeight = '0px';
+        a.style.opacity = '0';
+        a.classList.remove('open');
+        setTimeout(() => { item.open = false; }, 300);
+      }
+    });
+  });
 
   /* --- Scroll handler --- */
   let ticking = false;
