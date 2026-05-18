@@ -3,17 +3,31 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
   const canvas = document.querySelector('.lp-hero-canvas');
   if (!canvas) return;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
   const ctx = canvas.getContext('2d');
   let w, h, particles = [];
 
   function resize() {
-    w = canvas.width = canvas.offsetWidth;
-    h = canvas.height = canvas.offsetHeight;
+    const dpr = window.devicePixelRatio || 1;
+    w = canvas.offsetWidth;
+    h = canvas.offsetHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   resize();
-  window.addEventListener('resize', resize);
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 150);
+  });
+
+  const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#D97706';
 
   class Particle {
     constructor() { this.reset(); }
@@ -33,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'oklch(65% 0.12 75 / 0.3)';
+      ctx.fillStyle = accent;
+      ctx.globalAlpha = 0.3;
       ctx.fill();
     }
   }
@@ -49,7 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
 
+  let animationId;
   function animate() {
+    ctx.globalAlpha = 1;
     ctx.clearRect(0, 0, w, h);
     for (let p of particles) {
       p.update();
@@ -64,7 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `oklch(65% 0.12 75 / ${0.15 * (1 - dist / 120)})`;
+          ctx.strokeStyle = accent;
+          ctx.globalAlpha = 0.15 * (1 - dist / 120);
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
@@ -79,13 +97,29 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `oklch(65% 0.12 75 / ${0.2 * (1 - dist / 150)})`;
+          ctx.strokeStyle = accent;
+          ctx.globalAlpha = 0.2 * (1 - dist / 150);
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
       }
     }
-    requestAnimationFrame(animate);
+    animationId = requestAnimationFrame(animate);
   }
-  animate();
+
+  const heroSection = document.getElementById('hero');
+  if (heroSection) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (!animationId) animationId = requestAnimationFrame(animate);
+        } else {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+      });
+    }, { threshold: 0 });
+    observer.observe(heroSection);
+  }
+  animationId = requestAnimationFrame(animate);
 });

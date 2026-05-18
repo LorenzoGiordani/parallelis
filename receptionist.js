@@ -30,7 +30,7 @@
 
       ctx.clearRect(0, 0, displayW, displayH);
 
-      const accentColor = '#D97706';
+      const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#D97706';
 
       // === Sound wave rings emanating from left ===
       for (let ring = 0; ring < 6; ring++) {
@@ -242,11 +242,12 @@
 
       try {
         const formData = new FormData(form);
-        await fetch('/ai-receptionist', {
+        const res = await fetch('/ai-receptionist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(formData).toString(),
         });
+        if (!res.ok) throw new Error('Errore server');
 
         btn.innerHTML = 'Ricevuto! Ti contatteremo entro 24 ore';
         form.reset();
@@ -257,7 +258,7 @@
         btn.disabled = false;
         setTimeout(() => {
           btn.innerHTML = originalHtml;
-          btn.style.removeProperty('--btn-error');
+          btn.style.setProperty('--btn-error', '0');
         }, 4000);
       }
     });

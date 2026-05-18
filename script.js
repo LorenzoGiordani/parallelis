@@ -6,18 +6,14 @@
   'use strict';
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) return;
 
   /* --- Header scroll --- */
   const header = document.querySelector('.site-header');
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.getElementById('nav-menu');
-  let lastScroll = 0;
-
   function updateHeader() {
     const y = window.scrollY;
     header.classList.toggle('scrolled', y > 50);
-    lastScroll = y;
   }
 
   /* --- Hamburger toggle --- */
@@ -107,7 +103,7 @@
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let w, h, animationId;
-    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#D97706';
     const ca = (alpha) => accent.replace(')', ` / ${alpha})`);
 
     function resize() {
@@ -206,7 +202,9 @@
 
     function initHero() {
       resize();
-      animationId = requestAnimationFrame(draw);
+      if (!prefersReduced) {
+        animationId = requestAnimationFrame(draw);
+      }
     }
 
     let resizeTimeout;
@@ -220,7 +218,7 @@
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            if (!animationId) animationId = requestAnimationFrame(draw);
+            if (!animationId && !prefersReduced) animationId = requestAnimationFrame(draw);
           } else {
             if (animationId) {
               cancelAnimationFrame(animationId);
@@ -284,7 +282,10 @@
       /* Close all others */
       document.querySelectorAll('.faq-item.open').forEach((openItem) => {
         if (openItem !== item) {
-          openItem.querySelector('.faq-answer').classList.remove('open');
+          const siblingAnswer = openItem.querySelector('.faq-answer');
+          siblingAnswer.style.maxHeight = '0px';
+          siblingAnswer.style.opacity = '0';
+          siblingAnswer.classList.remove('open');
           openItem.classList.remove('open');
         }
       });
@@ -331,11 +332,16 @@
 
       try {
         const formData = new FormData(form);
-        await fetch('/', {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        const res = await fetch('/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams(formData).toString(),
+          signal: controller.signal,
         });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error('Errore server');
 
         btn.innerHTML = 'Ricevuto! Ti contatteremo presto';
         form.reset();
