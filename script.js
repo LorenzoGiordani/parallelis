@@ -126,32 +126,20 @@
 
       ctx.clearRect(0, 0, dw, dh);
 
-      const t = now * 0.00012;
+      const t = now * 0.00015;
 
-      // === 1. Subtle gradient wash ===
-      const wash = ctx.createRadialGradient(cx, cy, 0, cx, cy, dh * 0.8);
-      wash.addColorStop(0, ca('0.08'));
-      wash.addColorStop(0.5, ca('0.03'));
-      wash.addColorStop(1, 'transparent');
-      ctx.fillStyle = wash;
-      ctx.fillRect(0, 0, dw, dh);
-
-      // === 2. Horizontal shader lines with varying density ===
-      const primaryLineCount = 48;
-      const pSpacing = dh / (primaryLineCount - 1);
-
-      for (let i = 0; i < primaryLineCount; i++) {
-        const by = i * pSpacing;
+      // === 1. Horizontal converging lines ===
+      const lineCount = 60;
+      const spacing = dh / (lineCount - 1);
+      for (let i = 0; i < lineCount; i++) {
+        const by = i * spacing;
         const dc = Math.abs(by - cy) / (dh * 0.5);
         const prox = 1 - Math.min(dc, 1);
-        const proxSq = prox * prox;
+        const wobble = Math.sin(t * 2.5 + i * 0.25) * 6 * prox;
+        const bend = Math.sin(i * 0.1 + t * 0.8) * 0.5 * prox;
 
-        const wobble = Math.sin(t * 2.2 + i * 0.18) * 5 * prox;
-        const wobble2 = Math.sin(t * 1.4 + i * 0.4) * 8 * proxSq;
-        const totalWobble = wobble + wobble2;
-
-      const alpha = 0.04 + 0.25 * proxSq;
-      const lw = 0.3 + 4.0 * proxSq;
+        const alpha = 0.05 + 0.2 * prox;
+        const lw = 0.3 + 2.5 * prox;
 
         ctx.strokeStyle = accent;
         ctx.globalAlpha = alpha;
@@ -160,110 +148,57 @@
         ctx.beginPath();
         ctx.moveTo(0, by);
 
-        const segs = 14;
+        const segs = 12;
         for (let j = 1; j <= segs; j++) {
           const x = (dw / segs) * j;
           const p = j / segs;
-          const yOff = Math.sin(p * Math.PI * 2.5) * 0.08 * dh * prox + Math.sin(p * Math.PI * 0.8) * 0.06 * dh * proxSq + totalWobble * p;
+          const yOff = Math.sin(p * Math.PI * 2) * bend * dh * 0.08 + wobble * p;
           ctx.lineTo(x, by + yOff);
         }
-
         ctx.stroke();
       }
 
-      // === 3. Sparse over/under lines (density variation) ===
-      ctx.globalAlpha = 0.025;
-      for (let i = 0; i < 24; i++) {
-        const by = (i / 23) * dh + Math.sin(t + i * 0.7) * dh * 0.02;
-        const dc = Math.abs(by - cy) / (dh * 0.5);
-        if (dc > 0.6) continue;
-        const prox = 1 - Math.min(dc, 1);
-
-        ctx.strokeStyle = accent;
-        ctx.lineWidth = 0.3 + 1.5 * prox;
-
+      // === 2. Diagonal connector lines ===
+      ctx.globalAlpha = 0.03;
+      ctx.lineWidth = 0.8;
+      for (let d = 0; d < 8; d++) {
+        const x = d * (dw / 8);
         ctx.beginPath();
-        ctx.moveTo(0, by);
-        for (let j = 1; j <= 10; j++) {
-          const x = (dw / 10) * j;
-          ctx.lineTo(x, by + Math.sin(t * 3 + i * 0.5 + j * 0.3) * 3 * prox);
-        }
+        ctx.moveTo(x, -10);
+        ctx.lineTo(x + dw * 0.1 + Math.sin(t + d * 0.5) * 8, dh + 10);
         ctx.stroke();
       }
 
-      // === 4. Diagonal beam lines ===
-      ctx.globalAlpha = 0.035;
-      ctx.lineWidth = 0.5;
-      for (let d = 0; d < 12; d++) {
-        const x = d * (dw / 12);
-        ctx.beginPath();
-        ctx.moveTo(x - 20, 0);
-        ctx.lineTo(x + dw * 0.12 - 20 + Math.sin(t + d) * 10, dh);
-        ctx.stroke();
-      }
-
-      // === 5. Glow nodes at convergence zone ===
-      for (let n = 0; n < 5; n++) {
-        const nx = cx + (n - 2) * dw * 0.08;
-        const ny = cy + Math.sin(t * 1.8 + n * 0.9) * dh * 0.05;
-        const pulse = 1 + Math.sin(t * 2.5 + n * 1.2) * 0.3;
-        const radius = (20 + 15 * (1 - Math.abs(n - 2) / 2.5)) * pulse;
+      // === 3. Glow nodes at convergence ===
+      for (let n = 0; n < 4; n++) {
+        const nx = cx + (n - 1.5) * dw * 0.08;
+        const ny = cy + Math.sin(t * 1.5 + n * 0.8) * dh * 0.04;
+        const pulse = 1 + Math.sin(t * 2 + n * 1.1) * 0.25;
+        const radius = (25 + 20 * (1 - Math.abs(n - 1.5) / 2)) * pulse;
 
         const grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, radius * 2.5);
-        grad.addColorStop(0, ca('0.50'));
-        grad.addColorStop(0.2, ca('0.18'));
-        grad.addColorStop(0.6, ca('0.06'));
+        grad.addColorStop(0, ca('0.55'));
+        grad.addColorStop(0.3, ca('0.15'));
+        grad.addColorStop(0.7, ca('0.04'));
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
-        ctx.globalAlpha = 0.7 + Math.sin(t * 1.3 + n) * 0.3;
+        ctx.globalAlpha = 0.6 + Math.sin(t * 1.2 + n) * 0.3;
         ctx.beginPath();
         ctx.arc(nx, ny, radius * 2.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // === 6. Central vertical light column ===
-      const beam = ctx.createLinearGradient(cx, 0, cx, dh);
-      beam.addColorStop(0, 'transparent');
-      beam.addColorStop(0.35, ca('0.06'));
-      beam.addColorStop(0.5, ca('0.12'));
-      beam.addColorStop(0.65, ca('0.06'));
-      beam.addColorStop(1, 'transparent');
-      ctx.globalAlpha = 0.5 + Math.sin(t * 0.8) * 0.5;
+      // === 4. Central vertical column ===
+      ctx.save();
+      ctx.globalAlpha = 0.15 + Math.sin(t * 0.6) * 0.1;
+      const beam = ctx.createLinearGradient(cx, 0, cx + dw * 0.03, dh);
+      beam.addColorStop(0, ca('0.03'));
+      beam.addColorStop(0.4, ca('0.10'));
+      beam.addColorStop(0.6, ca('0.10'));
+      beam.addColorStop(1, ca('0.03'));
       ctx.fillStyle = beam;
-      ctx.fillRect(cx - dw * 0.04, 0, dw * 0.08, dh);
-
-      // === 7. Floating particles ===
-      ctx.globalAlpha = 0.4;
-      for (let p = 0; p < 15; p++) {
-        const phase = p * 0.8;
-        const px = cx + (p - 7) * dw * 0.06 + Math.sin(t * 1.1 + phase) * dw * 0.08;
-        const py = cy + Math.sin(t * 0.7 + phase * 1.3) * dh * 0.15;
-        const size = 1 + Math.sin(t * 2 + phase) * 0.5;
-        const dist = Math.abs(px - cx) / (dw * 0.5);
-        const pAlpha = 0.1 * (1 - Math.min(dist, 1));
-
-        ctx.fillStyle = accent;
-        ctx.globalAlpha = pAlpha * (0.5 + Math.sin(t * 1.5 + phase) * 0.5);
-        ctx.beginPath();
-        ctx.arc(px, py, size * 1.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      ctx.globalAlpha = 0.6;
-      for (let p = 0; p < 8; p++) {
-        const phase = p * 1.1;
-        const px = cx + (p - 3.5) * dw * 0.05 + Math.sin(t * 0.9 + phase) * dw * 0.06;
-        const py = cy + Math.sin(t * 0.6 + phase * 1.1) * dh * 0.12;
-        const size = 2 + Math.sin(t * 2.5 + phase) * 1;
-        const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 3);
-        grad.addColorStop(0, ca('0.30'));
-        grad.addColorStop(1, 'transparent');
-        ctx.fillStyle = grad;
-        ctx.globalAlpha = 0.3 + Math.sin(t * 1.3 + phase) * 0.2;
-        ctx.beginPath();
-        ctx.arc(px, py, size * 3, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      ctx.fillRect(cx - dw * 0.02, 0, dw * 0.07, dh);
+      ctx.restore();
 
       ctx.globalAlpha = 1;
       animationId = requestAnimationFrame(draw);
