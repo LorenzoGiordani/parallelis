@@ -743,6 +743,8 @@ section {
 .step-number::before {
   content: '';
   position: absolute;
+  inset: 0;
+  margin: auto;
   width: 56px;
   height: 56px;
   border: 1px solid color-mix(in oklch, var(--accent) 12%, transparent);
@@ -750,11 +752,14 @@ section {
   animation: step-orbit 8s linear infinite;
   opacity: 0;
   transition: opacity 0.8s var(--ease-out-expo);
+  transform-origin: 40px 40px;
 }
 
 .step-number::after {
   content: '';
   position: absolute;
+  inset: 0;
+  margin: auto;
   width: 68px;
   height: 68px;
   border: 1px dashed color-mix(in oklch, var(--accent) 8%, transparent);
@@ -762,6 +767,7 @@ section {
   animation: step-orbit-reverse 12s linear infinite;
   opacity: 0;
   transition: opacity 0.8s var(--ease-out-expo) 0.1s;
+  transform-origin: 40px 40px;
 }
 
 .process-step.visible .step-number::before,
@@ -770,13 +776,13 @@ section {
 }
 
 @keyframes step-orbit {
-  from { transform: rotate(0deg) translateX(30px) rotate(0deg); }
-  to   { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @keyframes step-orbit-reverse {
-  from { transform: rotate(360deg) translateX(36px) rotate(-360deg); }
-  to   { transform: rotate(0deg) translateX(36px) rotate(0deg); }
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
 }
 
 .step-digit {
