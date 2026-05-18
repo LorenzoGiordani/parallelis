@@ -1,0 +1,68 @@
+/* ============================================
+   Speed to Lead Agent — Page-Specific Styles
+   ============================================ */
+
+/* --- ROI Section --- */
+.stl-roi {
+  padding: var(--space-2xl) 0;
+  background: var(--surface);
+}
+
+.stl-roi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.stl-roi-card {
+  padding: var(--space-md);
+  border: 1px solid var(--border-light);
+  background: var(--bg);
+  transition: border-color 0.3s var(--ease-out-quart);
+}
+
+.stl-roi-card:hover {
+  border-color: var(--border-hover);
+}
+
+.stl-roi-num {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: oklch(55% 0.12 25);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-sm);
+  display: block;
+}
+
+.stl-roi-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.stl-roi-stat {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 100;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stl-roi-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .stl-roi-grid {
+    grid-template-columns: 1fr;
+  }
+}

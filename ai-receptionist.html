@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="it" class="no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parallelis AI</title>
+<meta name="description" content="Receptionist AI che risponde al telefono 24 ore su 24, parla italiano, prenota appuntamenti su Google Calendar. Da 297€/mese. Garanzia soddisfatti o rimborsati 30 giorni.">
+<meta name="keywords" content="receptionist AI, assistente vocale, segretaria AI, dentista, studio dentistico, prenotazioni automatiche, voice agent">
+<meta name="author" content="Parallelis">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://parallelis.it/ai-receptionist">
+
+<meta property="og:title" content="AI Receptionist — La tua segretaria AI che non dorme mai">
+<meta property="og:description" content="Risponde al telefono 24/7, prenota appuntamenti, parla italiano perfetto. Garanzia 30 giorni.">
+<meta property="og:type" content="product">
+<meta property="og:url" content="https://parallelis.it/ai-receptionist">
+<meta property="og:site_name" content="Parallelis">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Receptionist — Segretaria AI 24/7 per la tua azienda">
+<meta name="twitter:description" content="Non perdere più clienti. L'AI risponde, prenota, ti notifica. 297€/mese.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AI Receptionist by Parallelis",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Cloud",
+  "description": "Assistente vocale AI 24/7 per studi professionali e PMI. Risponde al telefono, prenota appuntamenti, qualifica clienti.",
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "997",
+    "highPrice": "1997",
+    "priceCurrency": "EUR",
+    "billingPeriod": "P1M"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/png" href="favicon.png" sizes="64x64">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="receptionist.css">
+<script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Salta al contenuto</a>
+
+<header class="site-header" role="banner">
+  <nav class="nav" aria-label="Navigazione principale">
+    <a href="index.html" class="logo" aria-label="Parallelis Home">
+      <img src="parallelis-logo-amber.png" alt="Parallelis" class="logo-img" width="240" height="135">
+    </a>
+    <div class="nav-links" id="nav-menu">
+      <a href="#come-funziona">Come funziona</a>
+      <a href="#prezzi">Prezzi</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contatto" class="btn btn--nav">Richiedi demo</a>
+    </div>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="nav-menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </nav>
+</header>
+
+<main id="main-content">
+
+  <section class="lp-hero" id="hero">
+    <div class="lp-hero-bg">
+      <canvas class="lp-hero-canvas" aria-hidden="true"></canvas>
+    </div>
+    <div class="lp-hero-inner">
+      <div class="lp-hero-text">
+        <p class="lp-badge">
+          <span class="lp-badge-dot"></span>
+          Per studi e PMI
+        </p>
+        <h1 class="lp-hero-title">
+          La tua segretaria AI<br>
+          <span class="text-accent">non dorme mai.</span>
+        </h1>
+        <p class="lp-hero-sub">
+          Risponde al telefono 24 ore su 24. Prenota appuntamenti. Parla italiano perfetto.<br>
+          <strong>Costa 1/4 di una segretaria part-time.</strong>
+        </p>
+        <div class="lp-hero-cta">
+          <a href="#contatto" class="btn btn--primary btn--lg">
+            Richiedi una demo gratuita
+            <span class="btn-arrow">→</span>
+          </a>
+          <p class="lp-hero-note">Nessun impegno. Setup in 7 giorni.</p>
+        </div>
+      </div>
+
+      <div class="lp-hero-metric" aria-hidden="true">
+        <div class="lp-metric-card">
+          <span class="lp-metric-value" data-count="5">0</span><span class="lp-metric-dash">—</span><span class="lp-metric-value" data-count="10">0</span>
+          <span class="lp-metric-label">chiamate perse ogni mese<br>dal tuo studio o azienda</span>
+        </div>
+        <div class="lp-metric-card lp-metric-card--accent">
+          <span class="lp-metric-currency">€</span><span class="lp-metric-value" data-count="1600">0</span><span class="lp-metric-range">—€9.000</span>
+          <span class="lp-metric-label">mancato guadagno mensile<br>per chiamate non risposte</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lp-wave" aria-hidden="true">
+      <svg viewBox="0 0 800 100" preserveAspectRatio="none">
+        <path class="wave-line wave-1" d="M0,50 C200,20 600,80 800,50" fill="none" stroke="currentColor" stroke-width="1"/>
+        <path class="wave-line wave-2" d="M0,50 C200,30 600,70 800,50" fill="none" stroke="currentColor" stroke-width="1"/>
+        <path class="wave-line wave-3" d="M0,50 C200,40 600,60 800,50" fill="none" stroke="currentColor" stroke-width="1"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="lp-social-proof">
+    <div class="lp-proof-inner">
+      <span class="lp-proof-item">Setup in <strong>7 giorni</strong></span>
+      <span class="lp-proof-sep">·</span>
+      <span class="lp-proof-item">ROI <strong>5x—30x</strong> provato</span>
+      <span class="lp-proof-sep">·</span>
+      <span class="lp-proof-item"><strong>Garanzia</strong> soddisfatti o rimborsati</span>
+    </div>
+  </section>
+
+  <section class="lp-problem" id="problema">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <p class="section-eyebrow"><span class="mono-accent">//</span> Il problema</p>
+        <h2 class="section-title">
+          Ogni chiamata persa<br>
+          è <span class="text-accent">un cliente perso.</span>
+        </h2>
+      </div>
+      <div class="lp-problem-grid">
+        <div class="lp-problem-item" data-reveal>
+          <span class="lp-problem-num">01</span>
+          <h3>Sabato e domenica</h3>
+          <p>Il telefono squilla ma nessuno risponde. Il cliente chiama il primo studio che risponde.</p>
+        </div>
+        <div class="lp-problem-item" data-reveal>
+          <span class="lp-problem-num">02</span>
+          <h3>Durante le visite</h3>
+          <p>Sei con un cliente, il personale è occupato. Chi chiama sente occupato.</p>
+        </div>
+        <div class="lp-problem-item" data-reveal>
+          <span class="lp-problem-num">03</span>
+          <h3>In pausa pranzo</h3>
+          <p>Studio chiuso 13-15. Due ore di chiamate senza risposta, ogni giorno.</p>
+        </div>
+        <div class="lp-problem-item" data-reveal>
+          <span class="lp-problem-num">04</span>
+          <h3>Costi fissi alti</h3>
+          <p>Segretaria part-time: €1.200/mese. Full-time: €2.000+. E non copre il weekend.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-solution" id="come-funziona">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <p class="section-eyebrow"><span class="mono-accent">//</span> La soluzione</p>
+        <h2 class="section-title">
+          Come funziona<br>
+          <span class="text-accent">AI Receptionist</span>
+        </h2>
+      </div>
+
+      <div class="lp-flow">
+        <div class="lp-flow-step" data-reveal>
+          <div class="lp-flow-visual">
+            <div class="lp-phone-ring">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <span class="lp-ring-pulse"></span>
+            </div>
+          </div>
+          <div class="lp-flow-content">
+            <span class="lp-flow-num">1</span>
+            <h3>Il cliente chiama</h3>
+            <p>In qualsiasi momento. Sabato sera, domenica mattina, durante la pausa pranzo.</p>
+          </div>
+        </div>
+
+        <div class="lp-flow-connector" aria-hidden="true">
+          <span class="lp-connector-line"></span>
+        </div>
+
+        <div class="lp-flow-step" data-reveal>
+          <div class="lp-flow-visual">
+            <div class="lp-ai-brain">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+              </svg>
+            </div>
+          </div>
+          <div class="lp-flow-content">
+            <span class="lp-flow-num">2</span>
+            <h3>L'AI risponde in italiano</h3>
+            <p>Voce naturale, professionale. Chiede nome, motivo della chiamata, disponibilità preferite.</p>
+          </div>
+        </div>
+
+        <div class="lp-flow-connector" aria-hidden="true">
+          <span class="lp-connector-line"></span>
+        </div>
+
+        <div class="lp-flow-step" data-reveal>
+          <div class="lp-flow-visual">
+            <div class="lp-calendar-check">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <path d="M9 16l2 2 4-4"/>
+              </svg>
+            </div>
+          </div>
+          <div class="lp-flow-content">
+            <span class="lp-flow-num">3</span>
+            <h3>Prenota su Google Calendar</h3>
+            <p>Controlla gli slot liberi, prenota automaticamente, conferma al cliente.</p>
+          </div>
+        </div>
+
+        <div class="lp-flow-connector" aria-hidden="true">
+          <span class="lp-connector-line"></span>
+        </div>
+
+        <div class="lp-flow-step" data-reveal>
+          <div class="lp-flow-visual">
+            <div class="lp-bell-notify">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span class="lp-notify-badge">1</span>
+            </div>
+          </div>
+          <div class="lp-flow-content">
+            <span class="lp-flow-num">4</span>
+            <h3>Ricevi la notifica</h3>
+            <p>SMS, email o WhatsApp con nome del cliente, orario e motivo della chiamata. Tu non hai fatto nulla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-numbers">
+    <div class="lp-container">
+      <div class="lp-numbers-grid">
+        <div class="lp-number-item" data-reveal>
+          <span class="lp-number-value">24/7</span>
+          <span class="lp-number-label">Sempre attivo. Weekend, festivi, notte.</span>
+        </div>
+        <div class="lp-number-item" data-reveal>
+          <span class="lp-number-value">&lt;2s</span>
+          <span class="lp-number-label">Tempo di risposta. Zero attesa per il paziente.</span>
+        </div>
+        <div class="lp-number-item" data-reveal>
+          <span class="lp-number-value">98%</span>
+          <span class="lp-number-label">Tasso prenotazione riuscita dopo la prima settimana.</span>
+        </div>
+        <div class="lp-number-item" data-reveal>
+          <span class="lp-number-value">297€</span>
+          <span class="lp-number-label">Al mese. 1/4 di una segretaria part-time.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-pricing" id="prezzi">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <p class="section-eyebrow"><span class="mono-accent">//</span> Investimento</p>
+        <h2 class="section-title">
+          Quanto costa<br>
+          <span class="text-accent">non perdere pazienti?</span>
+        </h2>
+      </div>
+
+      <div class="lp-pricing-grid">
+        <div class="lp-price-card" data-reveal>
+          <div class="lp-price-header">
+            <span class="lp-price-tier">Starter</span>
+            <div class="lp-price-amount">
+              <span class="lp-price-currency">€</span><span class="lp-price-value">297</span>
+              <span class="lp-price-period">/mese</span>
+            </div>
+            <span class="lp-price-setup">+ €997 setup una tantum</span>
+          </div>
+          <ul class="lp-price-features">
+            <li>Agente vocale AI personalizzato</li>
+            <li>Prenotazione su Google Calendar</li>
+            <li>Notifiche SMS e email</li>
+            <li>Orari e servizi configurati</li>
+            <li>Supporto tecnico incluso</li>
+          </ul>
+          <a href="#contatto" class="btn btn--ghost btn--full">
+            Richiedi una demo
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="lp-price-card lp-price-card--featured" data-reveal>
+          <span class="lp-price-badge">Consigliato</span>
+          <div class="lp-price-header">
+            <span class="lp-price-tier">Professional</span>
+            <div class="lp-price-amount">
+              <span class="lp-price-currency">€</span><span class="lp-price-value">497</span>
+              <span class="lp-price-period">/mese</span>
+            </div>
+            <span class="lp-price-setup">+ €1.997 setup una tantum</span>
+          </div>
+          <ul class="lp-price-features">
+            <li>Tutto dello Starter</li>
+            <li>Integrazione con il tuo gestionale</li>
+            <li>Recall automatico clienti</li>
+            <li>Dashboard chiamate e statistiche</li>
+            <li>Priorità supporto</li>
+          </ul>
+          <a href="#contatto" class="btn btn--primary btn--full">
+            Richiedi una demo
+            <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="lp-pricing-guarantee">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <p><strong>Garanzia 30 giorni.</strong> Se dopo 30 giorni non sei soddisfatto, ti rimborsiamo il primo mese. Zero rischi per te.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-compare">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <p class="section-eyebrow"><span class="mono-accent">//</span> Confronto</p>
+        <h2 class="section-title">
+          AI Receptionist vs<br>
+          <span class="text-accent">le alternative</span>
+        </h2>
+      </div>
+      <div class="lp-compare-table" data-reveal>
+        <div class="lp-compare-row lp-compare-head">
+          <span></span>
+          <span class="lp-compare-highlight">AI Receptionist</span>
+          <span>Segretaria part-time</span>
+          <span>Segreteria telefonica</span>
+        </div>
+        <div class="lp-compare-row">
+          <span>Disponibile 24/7</span>
+          <span class="lp-compare-highlight"><span class="lp-check">✓</span></span>
+          <span><span class="lp-cross">✗</span></span>
+          <span><span class="lp-cross">✗</span></span>
+        </div>
+        <div class="lp-compare-row">
+          <span>Prenota appuntamenti</span>
+          <span class="lp-compare-highlight"><span class="lp-check">✓</span></span>
+          <span><span class="lp-check">✓</span></span>
+          <span><span class="lp-cross">✗</span></span>
+        </div>
+        <div class="lp-compare-row">
+          <span>Parla italiano naturale</span>
+          <span class="lp-compare-highlight"><span class="lp-check">✓</span></span>
+          <span><span class="lp-check">✓</span></span>
+          <span><span class="lp-cross">✗</span></span>
+        </div>
+        <div class="lp-compare-row">
+          <span>Weekend e festivi</span>
+          <span class="lp-compare-highlight"><span class="lp-check">✓</span></span>
+          <span><span class="lp-cross">✗</span></span>
+          <span><span class="lp-check">✓</span></span>
+        </div>
+        <div class="lp-compare-row">
+          <span>Costo mensile</span>
+          <span class="lp-compare-highlight">da €297</span>
+          <span>€1.200+</span>
+          <span>€50-100</span>
+        </div>
+        <div class="lp-compare-row">
+          <span>Mai ammalata</span>
+          <span class="lp-compare-highlight"><span class="lp-check">✓</span></span>
+          <span><span class="lp-cross">✗</span></span>
+          <span><span class="lp-check">✓</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-faq" id="faq">
+    <div class="lp-container">
+      <div class="lp-section-header">
+        <p class="section-eyebrow"><span class="mono-accent">//</span> Domande frequenti</p>
+        <h2 class="section-title">
+          Dubbi?<br>
+          <span class="text-accent">Risposte.</span>
+        </h2>
+      </div>
+
+      <div class="lp-faq-list">
+        <details class="lp-faq-item" data-reveal>
+          <summary>
+            <span>"I miei clienti preferiscono parlare con una persona."</span>
+            <span class="lp-faq-toggle">+</span>
+          </summary>
+          <p>Certo, e l'AI non sostituisce il personale durante l'orario di lavoro. Ma quando non potete rispondere — sabato, domenica, in pausa pranzo — l'AI recupera i clienti che altrimenti chiamerebbero il concorrente. Il 73% delle persone preferisce parlare con un AI che risponde subito piuttosto che sentire la segreteria.</p>
+        </details>
+
+        <details class="lp-faq-item" data-reveal>
+          <summary>
+            <span>"E se sbaglia a prenotare?"</span>
+            <span class="lp-faq-toggle">+</span>
+          </summary>
+          <p>La prima settimana monitoriamo insieme ogni chiamata. L'AI impara dai tuoi orari e dalle tue regole. Dopo 7 giorni di calibrazione, il tasso di errore è sotto il 2%. E ogni prenotazione ti arriva come notifica, quindi puoi sempre verificare.</p>
+        </details>
+
+        <details class="lp-faq-item" data-reveal>
+          <summary>
+            <span>"Costa troppo."</span>
+            <span class="lp-faq-toggle">+</span>
+          </summary>
+          <p>Una segretaria part-time costa €1.200/mese e copre solo 4-5 ore al giorno. AI Receptionist costa €297/mese, copre 24 ore e non si ammala mai. Un solo cliente recuperato al mese ripaga il servizio quasi 3 volte.</p>
+        </details>
+
+        <details class="lp-faq-item" data-reveal>
+          <summary>
+            <span>"Ho già la segretaria."</span>
+            <span class="lp-faq-toggle">+</span>
+          </summary>
+          <p>Perfetto — l'AI la libera dal telefono, non la sostituisce. Il tuo personale si concentra sui clienti in sede, l'AI gestisce le chiamate quando nessuno può rispondere. È una collaborazione, non una sostituzione.</p>
+        </details>
+
+        <details class="lp-faq-item" data-reveal>
+          <summary>
+            <span>"Come viene configurata?"</span>
+            <span class="lp-faq-toggle">+</span>
+          </summary>
+          <p>Una chiamata di 30 minuti in cui ci dici i tuoi orari, servizi, e come vuoi che risponda. Noi colleghiamo il tuo Google Calendar, configuriamo il numero, e facciamo chiamate di prova insieme. In 7 giorni sei operativo.</p>
+        </details>
+
+        <details class="lp-faq-item" data-reveal>
+          <summary>
+            <span>"Devo cambiare numero di telefono?"</span>
+            <span class="lp-faq-toggle">+</span>
+          </summary>
+          <p>No. Puoi deviare le chiamate non risposte al nostro numero, oppure usare un nuovo numero per le chiamate fuori orario. Entrambe le opzioni funzionano. Non tocchiamo il tuo numero esistente.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="lp-cta" id="contatto">
+    <div class="lp-container">
+      <div class="lp-cta-grid">
+        <div class="lp-cta-text">
+          <p class="section-eyebrow"><span class="mono-accent">//</span> Prossimo passo</p>
+          <h2 class="section-title">
+            Inizia a recuperare<br>
+            <span class="text-accent">clienti da domani.</span>
+          </h2>
+          <p class="lp-cta-desc">
+            Richiedi una demo gratuita di AI Receptionist. Ti mostriamo come funziona sul tuo business.
+            Setup in 7 giorni, zero configurazione tecnica da parte tua.
+          </p>
+          <div class="lp-cta-contact">
+            <a href="mailto:info@parallelis.ai" class="lp-cta-phone">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Scrivici: <strong>info@parallelis.ai</strong></span>
+            </a>
+          </div>
+        </div>
+
+        <form class="contact-form" netlify name="ai-receptionist" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="ai-receptionist">
+          <input type="hidden" name="product" value="AI Receptionist">
+          <div class="form-group">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" placeholder="Dott. Mario Rossi" autocomplete="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="mario@studio.it" autocomplete="email" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Telefono azienda</label>
+            <input type="tel" id="phone" name="phone" placeholder="+39 ..." autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="message">Quante chiamate pensi di perdere ogni mese?</label>
+            <textarea id="message" name="message" rows="3" placeholder="Es: 5-10 chiamate al mese, soprattutto il sabato e in pausa pranzo..."></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">
+            Richiedi la demo gratuita
+            <span class="btn-arrow">→</span>
+          </button>
+          <p class="form-note">Ti ricontattiamo entro 24 ore. Zero impegno.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="lp-container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <img src="parallelis-logo-dark.png" alt="Parallelis" class="logo-img logo-img--small" width="120" height="67" loading="lazy">
+        </a>
+        <p class="footer-desc">AI Agents per PMI. Consulenza, formazione, sviluppo.</p>
+      </div>
+      <div class="footer-links">
+        <nav class="footer-col" aria-label="Servizi">
+          <h4>Servizi</h4>
+          <a href="index.html#servizi">Consulenza</a>
+          <a href="formazione-ai.html">Formazione AI</a>
+          <a href="ai-receptionist.html">AI Receptionist</a>
+          <a href="speed-to-lead-agent.html">Speed to Lead</a>
+          <a href="lead-reactivation-agent.html">Lead Reactivation</a>
+          <a href="index.html#servizi">Custom Solutions</a>
+        </nav>
+        <nav class="footer-col" aria-label="Navigazione">
+          <h4>Link</h4>
+          <a href="index.html">Home</a>
+          <a href="ai-receptionist.html#contatto">Contatti</a>
+          <a href="mailto:info@parallelis.ai?subject=Privacy">Privacy Policy</a>
+        </nav>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Parallelis. Tutti i diritti riservati.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="receptionist.js"></script>
+
+<div class="lp-mobile-cta" id="mobile-cta" aria-hidden="true">
+  <a href="#contatto" class="btn btn--primary btn--full">
+    Richiedi demo gratuita
+    <span class="btn-arrow">→</span>
+  </a>
+</div>
+
+</body>
+</html>
