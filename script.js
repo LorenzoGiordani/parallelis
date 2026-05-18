@@ -104,7 +104,7 @@
     const ctx = canvas.getContext('2d');
     let w, h, animationId;
     const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-    const accentRGB = 'oklch(65% 0.18 75)';
+    const ca = (alpha) => accent.replace(')', ` / ${alpha})`);
 
     function resize() {
       const rect = canvas.parentElement.getBoundingClientRect();
@@ -126,8 +126,8 @@
 
       // === 1. Subtle gradient wash ===
       const wash = ctx.createRadialGradient(cx, cy, 0, cx, cy, dh * 0.8);
-      wash.addColorStop(0, accent + '08');
-      wash.addColorStop(0.5, accent + '03');
+      wash.addColorStop(0, ca('0.08'));
+      wash.addColorStop(0.5, ca('0.03'));
       wash.addColorStop(1, 'transparent');
       ctx.fillStyle = wash;
       ctx.fillRect(0, 0, dw, dh);
@@ -206,9 +206,9 @@
         const radius = (20 + 15 * (1 - Math.abs(n - 2) / 2.5)) * pulse;
 
         const grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, radius * 2.5);
-        grad.addColorStop(0, accent + '50');
-        grad.addColorStop(0.2, accent + '18');
-        grad.addColorStop(0.6, accent + '06');
+        grad.addColorStop(0, ca('0.50'));
+        grad.addColorStop(0.2, ca('0.18'));
+        grad.addColorStop(0.6, ca('0.06'));
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
         ctx.globalAlpha = 0.7 + Math.sin(t * 1.3 + n) * 0.3;
@@ -220,9 +220,9 @@
       // === 6. Central vertical light column ===
       const beam = ctx.createLinearGradient(cx, 0, cx, dh);
       beam.addColorStop(0, 'transparent');
-      beam.addColorStop(0.35, accent + '06');
-      beam.addColorStop(0.5, accent + '12');
-      beam.addColorStop(0.65, accent + '06');
+      beam.addColorStop(0.35, ca('0.06'));
+      beam.addColorStop(0.5, ca('0.12'));
+      beam.addColorStop(0.65, ca('0.06'));
       beam.addColorStop(1, 'transparent');
       ctx.globalAlpha = 0.5 + Math.sin(t * 0.8) * 0.5;
       ctx.fillStyle = beam;
@@ -252,7 +252,7 @@
         const py = cy + Math.sin(t * 0.6 + phase * 1.1) * dh * 0.12;
         const size = 2 + Math.sin(t * 2.5 + phase) * 1;
         const grad = ctx.createRadialGradient(px, py, 0, px, py, size * 3);
-        grad.addColorStop(0, accent + '30');
+        grad.addColorStop(0, ca('0.30'));
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
         ctx.globalAlpha = 0.3 + Math.sin(t * 1.3 + phase) * 0.2;

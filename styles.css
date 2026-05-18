@@ -641,6 +641,35 @@ section {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid color-mix(in oklch, var(--accent) 8%, var(--border-light));
   transition: background 0.3s var(--ease-out-quart), border-color 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
+  display: flex;
+  flex-direction: column;
+}
+
+.service-card .service-desc {
+  flex-grow: 1;
+}
+
+.service-card .btn,
+.service-card .btn-arrow {
+  margin-top: var(--space-sm);
+  align-self: flex-start;
+}
+
+.service-card .btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  transition: gap 0.2s var(--ease-out-quart);
+}
+
+.service-card .btn-arrow:hover {
+  gap: 0.6rem;
 }
 
 .service-card:hover {
