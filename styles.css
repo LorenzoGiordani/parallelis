@@ -84,6 +84,134 @@ input, textarea { font: inherit; color: inherit; }
   outline-offset: 2px;
 }
 
+/* --- Glass Utility --- */
+.glass {
+  background: color-mix(in oklch, var(--surface) 70%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--accent) 5%, transparent),
+    inset 0 1px 0 color-mix(in oklch, var(--text) 8%, transparent),
+    0 4px 24px color-mix(in oklch, var(--bg) 40%, transparent);
+}
+
+.glass--card {
+  background: color-mix(in oklch, var(--surface) 60%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in oklch, var(--accent) 10%, var(--border));
+  transition: border-color 0.3s var(--ease-out-quart), transform 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
+}
+
+.glass--card:hover {
+  border-color: color-mix(in oklch, var(--accent) 25%, var(--border-hover));
+  box-shadow: 0 0 40px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+}
+
+.glass--btn {
+  background: color-mix(in oklch, var(--surface) 50%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in oklch, var(--accent) 20%, var(--border));
+  color: var(--text);
+  box-shadow: 0 0 20px transparent;
+  transition: all 0.3s var(--ease-out-quart);
+}
+
+.glass--btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px var(--accent-glow), 0 4px 20px var(--accent-light);
+  transform: scale(1.02);
+}
+
+/* --- Section Canvas Container --- */
+.section-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.section-canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.section-canvas-wrap + * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Parallel Lines Divider --- */
+.lines-divider {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lines-divider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    color-mix(in oklch, var(--accent) 5%, transparent) 1px,
+    transparent 2px,
+    transparent 48px
+  );
+  opacity: 0.4;
+}
+
+.lines-divider--angled::before {
+  background: repeating-linear-gradient(
+    -75deg,
+    transparent 0px,
+    color-mix(in oklch, var(--accent) 4%, transparent) 1px,
+    transparent 2px,
+    transparent 60px
+  );
+}
+
+.lines-divider--angled-reverse::before {
+  background: repeating-linear-gradient(
+    75deg,
+    transparent 0px,
+    color-mix(in oklch, var(--accent) 4%, transparent) 1px,
+    transparent 2px,
+    transparent 60px
+  );
+}
+
+.lines-divider--top {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--accent) 20%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+.lines-divider--glow {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--accent) 40%, transparent) 30%,
+    var(--accent) 50%,
+    color-mix(in oklch, var(--accent) 40%, transparent) 70%,
+    transparent 100%
+  );
+  filter: blur(4px);
+}
+
 /* --- Typography --- */
 .section-eyebrow {
   font-family: var(--font-mono);
@@ -145,10 +273,11 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .site-header.scrolled {
-  background: color-mix(in oklch, var(--bg) 85%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  background: color-mix(in oklch, var(--surface) 60%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid color-mix(in oklch, var(--accent) 15%, var(--border));
+  box-shadow: 0 1px 0 color-mix(in oklch, var(--accent) 8%, transparent);
 }
 
 .nav {
@@ -474,6 +603,10 @@ section {
   overflow-x: hidden;
 }
 
+.section-with-lines {
+  position: relative;
+}
+
 .services,
 .process,
 .contact {
@@ -502,12 +635,17 @@ section {
 
 .service-card {
   padding: var(--space-md);
-  background: var(--surface);
-  transition: background 0.3s var(--ease-out-quart);
+  background: color-mix(in oklch, var(--surface) 60%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in oklch, var(--accent) 8%, var(--border-light));
+  transition: background 0.3s var(--ease-out-quart), border-color 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
 }
 
 .service-card:hover {
-  background: var(--surface-hover);
+  background: color-mix(in oklch, var(--surface-hover) 70%, transparent);
+  border-color: color-mix(in oklch, var(--accent) 20%, var(--border-hover));
+  box-shadow: 0 0 30px var(--accent-glow);
 }
 
 .service-num {
@@ -605,6 +743,21 @@ section {
   stroke-dashoffset: 0;
 }
 
+.step-content {
+  padding: var(--space-md) var(--space-md) var(--space-md) var(--space-sm);
+  background: color-mix(in oklch, var(--surface) 40%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in oklch, var(--accent) 6%, var(--border-light));
+  border-radius: 0;
+  transition: border-color 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
+}
+
+.step-content:hover {
+  border-color: color-mix(in oklch, var(--accent) 15%, var(--border-hover));
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
 .step-tag {
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -648,17 +801,20 @@ section {
 
 .pg-card {
   padding: var(--space-md);
-  border: 1px solid var(--border-light);
-  background: var(--bg);
+  background: color-mix(in oklch, var(--surface) 50%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklch, var(--accent) 8%, var(--border-light));
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  transition: border-color 0.3s var(--ease-out-quart), transform 0.3s var(--ease-out-quart);
+  transition: border-color 0.3s var(--ease-out-quart), transform 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
 }
 
 .pg-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
+  border-color: color-mix(in oklch, var(--accent) 25%, var(--border-hover));
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.25);
 }
 
 .pg-card-icon {
@@ -708,10 +864,11 @@ section {
 .featured-product {
   max-width: var(--max-width);
   margin: 0 auto;
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
+  border-top: 1px solid color-mix(in oklch, var(--accent) 10%, var(--border-light));
+  border-bottom: 1px solid color-mix(in oklch, var(--accent) 10%, var(--border-light));
   padding: var(--space-2xl) var(--space-md);
-  background: var(--surface);
+  background: color-mix(in oklch, var(--surface) 40%, var(--bg));
+  position: relative;
 }
 
 .fp-inner {
@@ -771,11 +928,14 @@ section {
 
 .fp-phone {
   width: 220px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: color-mix(in oklch, var(--surface) 50%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in oklch, var(--accent) 15%, var(--border));
   border-radius: 24px;
   padding: 12px;
   position: relative;
+  box-shadow: 0 0 40px var(--accent-glow), 0 8px 32px rgba(0,0,0,0.3);
 }
 
 .fp-phone-notch {
@@ -965,13 +1125,25 @@ section {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  background: var(--border-light);
+  gap: var(--space-xs);
 }
 
 .faq-item {
-  background: var(--surface);
+  background: color-mix(in oklch, var(--surface) 50%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in oklch, var(--accent) 6%, var(--border-light));
   cursor: pointer;
+  transition: border-color 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
+}
+
+.faq-item:hover {
+  border-color: color-mix(in oklch, var(--accent) 15%, var(--border-hover));
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.faq-item[open] {
+  border-color: color-mix(in oklch, var(--accent) 20%, var(--border));
 }
 
 .faq-question {
@@ -1066,8 +1238,10 @@ details[open] .faq-question::after {
 }
 
 .contact-form {
-  background: var(--surface);
-  border: 1px solid var(--border-light);
+  background: color-mix(in oklch, var(--surface) 50%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in oklch, var(--accent) 10%, var(--border-light));
   padding: var(--space-md);
 }
 
