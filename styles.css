@@ -605,6 +605,7 @@ section {
 
 .section-with-lines {
   position: relative;
+  overflow: hidden;
 }
 
 .services,
@@ -680,7 +681,7 @@ section {
 .process-timeline {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-lg);
   position: relative;
 }
 
@@ -690,14 +691,36 @@ section {
   left: 40px;
   top: 0;
   bottom: 0;
-  width: 1px;
-  background: repeating-linear-gradient(
+  width: 1.5px;
+  background: linear-gradient(
     to bottom,
-    var(--border-light) 0px,
-    var(--border-light) 4px,
-    transparent 4px,
-    transparent 8px
+    transparent 0%,
+    color-mix(in oklch, var(--accent) 30%, transparent) 5%,
+    color-mix(in oklch, var(--accent) 30%, transparent) 95%,
+    transparent 100%
   );
+  opacity: 0.5;
+}
+
+.process-timeline::after {
+  content: '';
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 100%;
+  width: 1.5px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent) 0%,
+    color-mix(in oklch, var(--accent) 60%, transparent) 100%
+  );
+  box-shadow: 0 0 6px var(--accent-glow);
+  transition: bottom 1.5s var(--ease-out-expo);
+  z-index: 1;
+}
+
+.process-timeline.filled::after {
+  bottom: 0;
 }
 
 .process-step {
@@ -717,6 +740,45 @@ section {
   justify-content: center;
 }
 
+.step-number::before {
+  content: '';
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border: 1px solid color-mix(in oklch, var(--accent) 12%, transparent);
+  border-radius: 50%;
+  animation: step-orbit 8s linear infinite;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out-expo);
+}
+
+.step-number::after {
+  content: '';
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border: 1px dashed color-mix(in oklch, var(--accent) 8%, transparent);
+  border-radius: 50%;
+  animation: step-orbit-reverse 12s linear infinite;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out-expo) 0.1s;
+}
+
+.process-step.visible .step-number::before,
+.process-step.visible .step-number::after {
+  opacity: 1;
+}
+
+@keyframes step-orbit {
+  from { transform: rotate(0deg) translateX(30px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+}
+
+@keyframes step-orbit-reverse {
+  from { transform: rotate(360deg) translateX(36px) rotate(-360deg); }
+  to   { transform: rotate(0deg) translateX(36px) rotate(0deg); }
+}
+
 .step-digit {
   font-family: var(--font-display);
   font-size: 2rem;
@@ -724,6 +786,7 @@ section {
   color: var(--accent);
   position: relative;
   z-index: 1;
+  text-shadow: 0 0 20px var(--accent-glow);
 }
 
 .step-ring {
@@ -732,7 +795,8 @@ section {
   width: 80px;
   height: 80px;
   color: var(--accent);
-  opacity: 0.3;
+  opacity: 0.4;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
 }
 
 .step-ring circle {
@@ -1200,6 +1264,8 @@ details[open] .faq-question::after {
   grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
   align-items: start;
+  position: relative;
+  z-index: 1;
 }
 
 .contact-lede {
@@ -1243,6 +1309,13 @@ details[open] .faq-question::after {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid color-mix(in oklch, var(--accent) 10%, var(--border-light));
   padding: var(--space-md);
+  position: relative;
+  z-index: 1;
+}
+
+.contact .section-header {
+  position: relative;
+  z-index: 1;
 }
 
 .form-group {
@@ -1269,6 +1342,80 @@ details[open] .faq-question::after {
   font-size: 0.95rem;
   transition: border-color 0.2s var(--ease-out-quart);
   color: var(--text);
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Pulse Beams --- */
+.pulse-beams {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pulse-beam {
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in oklch, var(--accent) 15%, transparent) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  animation: pulse-beam 4s ease-in-out infinite;
+}
+
+.pulse-beam:nth-child(1) { left: 15%; animation-delay: 0s; }
+.pulse-beam:nth-child(2) { left: 35%; animation-delay: 1.2s; }
+.pulse-beam:nth-child(3) { left: 55%; animation-delay: 2.4s; }
+.pulse-beam:nth-child(4) { left: 75%; animation-delay: 0.6s; }
+.pulse-beam:nth-child(5) { left: 90%; animation-delay: 1.8s; }
+
+@keyframes pulse-beam {
+  0%   { opacity: 0; transform: scaleY(0.3); }
+  20%  { opacity: 0.6; }
+  50%  { opacity: 0.3; transform: scaleY(1); }
+  80%  { opacity: 0.6; }
+  100% { opacity: 0; transform: scaleY(0.3); }
+}
+
+.pulse-beam::before,
+.pulse-beam::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, color-mix(in oklch, var(--accent) 8%, transparent) 0%, transparent 70%);
+  animation: pulse-beam-node 4s ease-in-out infinite;
+}
+
+.pulse-beam::before { top: 20%; }
+.pulse-beam::after { top: 70%; }
+.pulse-beam:nth-child(1)::before { animation-delay: 0.2s; }
+.pulse-beam:nth-child(2)::before { animation-delay: 1.4s; }
+.pulse-beam:nth-child(3)::before { animation-delay: 2.6s; }
+.pulse-beam:nth-child(4)::before { animation-delay: 0.8s; }
+.pulse-beam:nth-child(5)::before { animation-delay: 2.0s; }
+.pulse-beam:nth-child(1)::after { animation-delay: 1.0s; }
+.pulse-beam:nth-child(2)::after { animation-delay: 2.2s; }
+.pulse-beam:nth-child(3)::after { animation-delay: 0.4s; }
+.pulse-beam:nth-child(4)::after { animation-delay: 1.6s; }
+.pulse-beam:nth-child(5)::after { animation-delay: 2.8s; }
+
+@keyframes pulse-beam-node {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.5); }
+  25%  { opacity: 0.8; }
+  50%  { opacity: 0.2; transform: translateX(-50%) scale(1.2); }
+  75%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.5); }
 }
 
 .form-group input:focus,

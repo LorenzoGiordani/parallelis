@@ -66,8 +66,9 @@
 
   revealElements.forEach((el) => revealObserver.observe(el));
 
-  /* --- Process step rings --- */
+  /* --- Process step rings + timeline fill --- */
   const processSteps = document.querySelectorAll('.process-step');
+  const processTimeline = document.querySelector('.process-timeline');
   const stepObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -82,13 +83,28 @@
 
   processSteps.forEach((el) => stepObserver.observe(el));
 
-  /* --- Hero Canvas: Geometric Convergence --- */
+  /* Fill timeline as last step appears */
+  if (processTimeline && processSteps.length) {
+    const lastStep = processSteps[processSteps.length - 1];
+    const fillObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          processTimeline.classList.add('filled');
+          fillObserver.unobserve(lastStep);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    fillObserver.observe(lastStep);
+  }
+
+  /* --- Hero Canvas: Shader-inspired Parallel Lines --- */
   const canvas = document.querySelector('.hero-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let w, h, animationId;
-    let time = 0;
-    const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const accentRGB = 'oklch(65% 0.18 75)';
 
     function resize() {
       const rect = canvas.parentElement.getBoundingClientRect();
@@ -99,83 +115,135 @@
     }
 
     function draw(now) {
-      const displayW = canvas.width / (window.devicePixelRatio || 1);
-      const displayH = canvas.height / (window.devicePixelRatio || 1);
-      const cx = displayW * 0.45;
-      const cy = displayH * 0.48;
+      const dw = canvas.width / (window.devicePixelRatio || 1);
+      const dh = canvas.height / (window.devicePixelRatio || 1);
+      const cx = dw * 0.45;
+      const cy = dh * 0.48;
 
-      ctx.clearRect(0, 0, displayW, displayH);
+      ctx.clearRect(0, 0, dw, dh);
 
-      const t = now * 0.00015;
+      const t = now * 0.00012;
 
-      // === GRID: horizontal lines converging to center ===
-      const lineCount = 60;
-      const spacing = displayH / (lineCount - 1);
+      // === 1. Subtle gradient wash ===
+      const wash = ctx.createRadialGradient(cx, cy, 0, cx, cy, dh * 0.8);
+      wash.addColorStop(0, accent + '08');
+      wash.addColorStop(0.5, accent + '03');
+      wash.addColorStop(1, 'transparent');
+      ctx.fillStyle = wash;
+      ctx.fillRect(0, 0, dw, dh);
 
-      for (let i = 0; i < lineCount; i++) {
-        const baseY = i * spacing;
-        const distFromCenter = Math.abs(baseY - cy) / cy;
-        const proximity = 1 - Math.min(distFromCenter, 1);
+      // === 2. Horizontal shader lines with varying density ===
+      const primaryLineCount = 48;
+      const pSpacing = dh / (primaryLineCount - 1);
 
-        const bendStrength = 0.5 * proximity;
-        const wobble = Math.sin(t * 2.5 + i * 0.25) * 6 * proximity;
-        const alpha = 0.05 + 0.2 * proximity;
-        const lineWidth = 0.3 + 2.5 * proximity;
+      for (let i = 0; i < primaryLineCount; i++) {
+        const by = i * pSpacing;
+        const dc = Math.abs(by - cy) / (dh * 0.5);
+        const prox = 1 - Math.min(dc, 1);
+        const proxSq = prox * prox;
 
-        ctx.strokeStyle = accentColor || 'oklch(65% 0.18 75)';
+        const wobble = Math.sin(t * 2.2 + i * 0.18) * 5 * prox;
+        const wobble2 = Math.sin(t * 1.4 + i * 0.4) * 8 * proxSq;
+        const totalWobble = wobble + wobble2;
+
+        const alpha = 0.03 + 0.18 * proxSq;
+        const lw = 0.2 + 3.0 * proxSq;
+
+        ctx.strokeStyle = accent;
         ctx.globalAlpha = alpha;
-        ctx.lineWidth = lineWidth;
+        ctx.lineWidth = lw;
 
         ctx.beginPath();
-        ctx.moveTo(0, baseY);
+        ctx.moveTo(0, by);
 
-        const segments = 12;
-        for (let j = 1; j <= segments; j++) {
-          const x = (displayW / segments) * j;
-          const progress = j / segments;
-          const yShift = Math.sin(progress * Math.PI) * bendStrength * displayH * 0.12 + wobble * progress;
-          ctx.lineTo(x, baseY + yShift);
+        const segs = 14;
+        for (let j = 1; j <= segs; j++) {
+          const x = (dw / segs) * j;
+          const p = j / segs;
+          const yOff = Math.sin(p * Math.PI * 2.5) * 0.08 * dh * prox + Math.sin(p * Math.PI * 0.8) * 0.06 * dh * proxSq + totalWobble * p;
+          ctx.lineTo(x, by + yOff);
         }
 
         ctx.stroke();
       }
 
-      // === DIAGONAL connectors between horizontals ===
-      ctx.globalAlpha = 0.04;
-      ctx.lineWidth = 0.5;
-      const diagSpacing = displayW / 7;
-      for (let d = 0; d < 8; d++) {
-        const x = d * diagSpacing;
+      // === 3. Sparse over/under lines (density variation) ===
+      ctx.globalAlpha = 0.025;
+      for (let i = 0; i < 24; i++) {
+        const by = (i / 23) * dh + Math.sin(t + i * 0.7) * dh * 0.02;
+        const dc = Math.abs(by - cy) / (dh * 0.5);
+        if (dc > 0.6) continue;
+        const prox = 1 - Math.min(dc, 1);
+
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 0.3 + 1.5 * prox;
+
         ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x + displayW * 0.15, displayH);
+        ctx.moveTo(0, by);
+        for (let j = 1; j <= 10; j++) {
+          const x = (dw / 10) * j;
+          ctx.lineTo(x, by + Math.sin(t * 3 + i * 0.5 + j * 0.3) * 3 * prox);
+        }
         ctx.stroke();
       }
 
-      // === GLOW NODES at convergence ===
-      for (let n = 0; n < 4; n++) {
-        const nx = cx + (n - 1.5) * displayW * 0.1;
-        const ny = cy + Math.sin(t * 2 + n * 0.8) * displayH * 0.06;
-        const radius = 30 + Math.sin(t * 3 + n) * 15 + 20 * (1 - Math.abs(n - 1.5) / 2);
-        const gradient = ctx.createRadialGradient(nx, ny, 0, nx, ny, radius * 2);
-        gradient.addColorStop(0, accentColor + '60');
-        gradient.addColorStop(0.3, accentColor + '15');
-        gradient.addColorStop(1, 'transparent');
-        ctx.fillStyle = gradient;
+      // === 4. Diagonal beam lines ===
+      ctx.globalAlpha = 0.035;
+      ctx.lineWidth = 0.5;
+      for (let d = 0; d < 12; d++) {
+        const x = d * (dw / 12);
         ctx.beginPath();
-        ctx.arc(nx, ny, radius * 2, 0, Math.PI * 2);
+        ctx.moveTo(x - 20, 0);
+        ctx.lineTo(x + dw * 0.12 - 20 + Math.sin(t + d) * 10, dh);
+        ctx.stroke();
+      }
+
+      // === 5. Glow nodes at convergence zone ===
+      for (let n = 0; n < 5; n++) {
+        const nx = cx + (n - 2) * dw * 0.08;
+        const ny = cy + Math.sin(t * 1.8 + n * 0.9) * dh * 0.05;
+        const pulse = 1 + Math.sin(t * 2.5 + n * 1.2) * 0.3;
+        const radius = (20 + 15 * (1 - Math.abs(n - 2) / 2.5)) * pulse;
+
+        const grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, radius * 2.5);
+        grad.addColorStop(0, accent + '50');
+        grad.addColorStop(0.2, accent + '18');
+        grad.addColorStop(0.6, accent + '06');
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.globalAlpha = 0.7 + Math.sin(t * 1.3 + n) * 0.3;
+        ctx.beginPath();
+        ctx.arc(nx, ny, radius * 2.5, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // === CENTRAL BEAM: vertical light column ===
-      const beamGrad = ctx.createLinearGradient(cx, 0, cx, displayH);
-      beamGrad.addColorStop(0, 'transparent');
-      beamGrad.addColorStop(0.4, accentColor + '08');
-      beamGrad.addColorStop(0.5, accentColor + '03');
-      beamGrad.addColorStop(0.6, accentColor + '08');
-      beamGrad.addColorStop(1, 'transparent');
-      ctx.fillStyle = beamGrad;
-      ctx.fillRect(cx - displayW * 0.06, 0, displayW * 0.12, displayH);
+      // === 6. Central vertical light column ===
+      const beam = ctx.createLinearGradient(cx, 0, cx, dh);
+      beam.addColorStop(0, 'transparent');
+      beam.addColorStop(0.35, accent + '06');
+      beam.addColorStop(0.5, accent + '12');
+      beam.addColorStop(0.65, accent + '06');
+      beam.addColorStop(1, 'transparent');
+      ctx.globalAlpha = 0.5 + Math.sin(t * 0.8) * 0.5;
+      ctx.fillStyle = beam;
+      ctx.fillRect(cx - dw * 0.04, 0, dw * 0.08, dh);
+
+      // === 7. Floating particles ===
+      ctx.globalAlpha = 0.4;
+      for (let p = 0; p < 15; p++) {
+        const phase = p * 0.8;
+        const px = cx + (p - 7) * dw * 0.06 + Math.sin(t * 1.1 + phase) * dw * 0.08;
+        const py = cy + Math.sin(t * 0.7 + phase * 1.3) * dh * 0.15;
+        const size = 1 + Math.sin(t * 2 + phase) * 0.5;
+        const dist = Math.abs(px - cx) / (dw * 0.5);
+        const pAlpha = 0.1 * (1 - Math.min(dist, 1));
+
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = pAlpha * (0.5 + Math.sin(t * 1.5 + phase) * 0.5);
+        ctx.beginPath();
+        ctx.arc(px, py, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       ctx.globalAlpha = 1;
       animationId = requestAnimationFrame(draw);
@@ -192,14 +260,12 @@
       resizeTimeout = setTimeout(resize, 200);
     });
 
-    /* Pause canvas when hero is off-screen */
     const heroSection = document.getElementById('hero');
     const heroObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             if (!animationId) animationId = requestAnimationFrame(draw);
-            time = performance.now() * 0.0001;
           } else {
             if (animationId) {
               cancelAnimationFrame(animationId);
